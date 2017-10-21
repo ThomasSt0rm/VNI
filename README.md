@@ -11,3 +11,7 @@ In addition to context and tasks I assume:
 * AppServers must use 1 IP Address to access outside world
 * Technically 2 AppServers are just something which runs Docker containers ;)
 
+## Links
+* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/StepsTaken.md) I explain steps taken to accomplish the task
+* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/Why.md) I explain why
+* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/DevHowTo.md) is a short Dev How-To
