@@ -1,0 +1,54 @@
+---
+- name: Server infrastructure
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+  - name: Get VPC id
+    ec2_vpc_net_facts:
+      region: eu-central-1
+    register: vpc
+  - name: Get private subnets
+    ec2_vpc_subnet_facts:
+      region: eu-central-1
+    register: subnet
+  - name: test
+    debug: msg="{{ subnet }}"
+  - name: Create Bastion
+    ec2:
+      key_name: test
+      instance_type: t2.micro
+      image: ami-c7ee5ca8
+      group: VNIDEFR01-SGPUB01
+      wait: yes
+      exact_count: 1
+      count_tag:
+        role: bastion
+      region: eu-central-1
+      vpc_subnet_id: "{{ subnet.subnets[0].id }}"
+      monitoring: yes
+      volumes:
+      - device_name: /dev/xvda
+        volume_type: gp2
+        volume_size: 8
+      instance_tags:
+        role: bastion
+  - name: Create EC2 fro DS
+    ec2:
+      key_name: test
+      instance_type: t2.micro
+      image: ami-c7ee5ca8
+      group: VNIDEFR01-SGPRIV01
+      wait: yes
+      exact_count: 1
+      count_tag:
+        role: directoryserver
+      region: eu-central-1
+      vpc_subnet_id: "{{ subnet.subnets[1].id }}"
+      monitoring: yes
+      volumes:
+      - device_name: /dev/xvda
+        volume_type: gp2
+        volume_size: 40
+      instance_tags:
+        role: directoryserver
