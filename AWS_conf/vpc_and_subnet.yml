@@ -1,0 +1,60 @@
+---
+- name: Create initial infrastructure
+  connection: local
+  hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: give me interprt
+    debug: msg="{{ansible_python_interpreter}}"
+  - name: Create VPC
+    ec2_vpc_net:
+      name: VNIDEFR01
+      cidr_block: 192.150.0.0/16
+      region: eu-central-1
+    register: vpc
+  - name: Create IGW and attach
+    ec2_vpc_igw:
+      vpc_id: "{{ vpc.vpc.id }}"
+      state: present
+      region: eu-central-1
+  - name: Create Public Subnet 1
+    ec2_vpc_subnet:
+      az: eu-central-1a
+      cidr: 192.150.1.0/28
+      region: eu-central-1
+      vpc_id: "{{ vpc.vpc.id }}"
+      resource_tags:
+        Name: VNIDEFR01-PUB01
+    register: pubsub1
+  - name: Create Public Subnet 2
+    ec2_vpc_subnet:
+      az: eu-central-1b
+      cidr: 192.150.2.0/28
+      region: eu-central-1
+      vpc_id: "{{ vpc.vpc.id }}"
+      resource_tags:
+        Name: VNIDEFR01-PUB02
+  - name: Create Private Subnet 1
+    ec2_vpc_subnet:
+      az: eu-central-1c
+      cidr: 192.150.9.0/24
+      region: eu-central-1
+      vpc_id: "{{ vpc.vpc.id }}"
+      resource_tags:
+        Name: VNIDEFR01-PRIV01
+  - name: Create Private Subnet 2
+    ec2_vpc_subnet:
+      az: eu-central-1a
+      cidr: 192.150.10.0/24
+      region: eu-central-1
+      vpc_id: "{{ vpc.vpc.id }}"
+      resource_tags:
+        Name: VNIDEFR01-PRIV02
+  - name: Create NAT Gateway in VNIDEFR01-PUB01
+    ec2_vpc_nat_gateway:
+      state: present
+      subnet_id: "{{ pubsub1.subnet.id }}"
+      region: eu-central-1
+      wait: yes
+      if_exist_do_not_create: true
+    
