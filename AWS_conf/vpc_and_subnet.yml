@@ -4,8 +4,6 @@
   hosts: localhost
   gather_facts: no
   tasks:
-  - name: give me interprt
-    debug: msg="{{ansible_python_interpreter}}"
   - name: Create VPC
     ec2_vpc_net:
       name: VNIDEFR01
@@ -18,8 +16,6 @@
       state: present
       region: eu-central-1
     register: igw
-  - name: lo
-    debug: msg="{{ igw }}"
   - name: Create Public Subnet 1
     ec2_vpc_subnet:
       az: eu-central-1a
@@ -38,8 +34,6 @@
       resource_tags:
         Name: VNIDEFR01-PUB02
     register: pubsub2
-  - name: ololololo
-    debug: msg="{{ pubsub1 }}\n{{ pubsub2 }}"
   - name: Create Private Subnet 1
     ec2_vpc_subnet:
       az: eu-central-1c
