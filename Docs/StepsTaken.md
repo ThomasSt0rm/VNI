@@ -39,3 +39,10 @@ For primary task it is required to build Directory Service.
 To acomplish this task 1 small EC2 instance will be used.
 
 I'm not going to use Ansible for configuration management of this machine. This machine will be configured manually. In "why" section you can find explanation of my 'selective' automation.
+
+
+### Directory Service
+
+I've created a small t2.micro server in Private subnet.
+To install and configure OpenLDAP I followed [this](http://www.itskarma.wtf/openldap-on-ec2/) guide.
+User info is stored [here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/Users.md)
