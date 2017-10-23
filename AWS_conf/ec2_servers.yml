@@ -38,8 +38,9 @@
       key_name: test
       instance_type: t2.micro
       image: ami-c7ee5ca8
-      group: VNIDEFR01-SGPRIV01
+      group: ['VNIDEFR01-SGPRIV01', 'VNIDEFR01-SGPRIV02' ]
       wait: yes
+      private_ip: 192.150.9.10
       exact_count: 1
       count_tag:
         role: directoryserver
