@@ -5,6 +5,6 @@ Assuming that directory users are needed for developers and operations to access
 * Engineers
 
 Table with users and obfuscated password can be found below:
-John Snow     Developer 
-Walter White  Engineer  
-Jerard Moeder Developer 
+john      Developer 
+walter  Engineer  
+jerard Developer 
