@@ -53,3 +53,23 @@
         volume_size: 40
       instance_tags:
         role: directoryserver
+  - name: Create ldap clients
+    ec2:
+      key_name: test
+      instance_type: t2.micro
+      image: ami-c7ee5ca8
+      group: VNIDEFR01-SGPRIV01
+      wait: yes
+      exact_count: 2
+      count_tag:
+        ldap_client: true
+      user_data: "{{ lookup('file', 'ldap_client_setup.sh') }}"
+      region: eu-central-1
+      vpc_subnet_id: "{{ subnet.subnets[1].id }}"
+      monitoring: yes
+      volumes:
+      - device_name: /dev/xvda
+        volume_type: gp2
+        volume_size: 8
+      instance_tags:
+        ldap_client: true
