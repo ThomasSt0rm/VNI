@@ -46,3 +46,25 @@ I'm not going to use Ansible for configuration management of this machine. This 
 I've created a small t2.micro server in Private subnet.
 To install and configure OpenLDAP I followed [this](http://www.itskarma.wtf/openldap-on-ec2/) guide.
 User info is stored [here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/Users.md)
+
+Once configured with default settings end users there is AMI (Amazon Machine Image) created. When needed to redeploy from scratch, I can use this AMI, so I don't need to configure OpenLDAP again.
+
+In 'Why' section there is also expalained why I chose OpenLDAP as identity provider.
+
+All the 'client' machines (AppServers) are also configured to allow authentication via LDAP.
+To do so, all I have to do is:
+1. Setup LDAP client (as in the guide above)
+2. Configure password auth in SSH daemon
+
+This will be done automagically by Ansible playbook, dynamic inventory script for AWS and tags "ldap_client: true"
+
+### Application Servers
+
+It is required to provide 2 Application Servers to run Docker containers.
+Since we need to have some sort of orchestration, there are my options:
+1. EC2 Container Service
+2. Kubernetes
+3. CoreOS/Mesos
+4. Docker Swarm
+
+My chose goes for ECS, all explanation can be found in 'Why' section.
