@@ -1,0 +1,17 @@
+---
+- Name: Install ldap client settings
+  hosts: ec2_tag_ldap_client_True
+  gather_facts: False
+  strategy: free
+  become: True
+  tasks:
+  - name: Install packages for LDAP
+    yum: name="{{ item }}" state=latest
+  - name: Run authconfig
+    raw: authconfig --useshadow --usemd5 --enableldap --enableldapauth --ldapserver=192.150.10.10 --ldapbasedn="dc=vni,dc=com" --enablemkhomedir --updateall
+  - name: Change sshd settings
+    raw: sed -i -- 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+    notify: restart_sshd
+  handlers:
+  - name: restart_sshd
+    service: name=sshd state=restarted
