@@ -1,5 +1,5 @@
 ---
-- Name: Install ldap client settings
+- name: Install ldap client settings
   hosts: tag_aws_cloudformation_stack_name_EC2ContainerService_assignment
   gather_facts: False
   strategy: free
