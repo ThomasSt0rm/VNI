@@ -1,0 +1,11 @@
+---
+- Name: Create IAM policy for dyn inv
+  gather_facts: False
+  connection: local
+  hosts: localhost
+  tasks:
+    - name: Create role
+      iam_role:
+        name: ansible
+        assume_role_policy_document: "{{ lookup('file','ansible_role.json') }}"
+        state: present
