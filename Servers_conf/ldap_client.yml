@@ -7,6 +7,9 @@
   tasks:
   - name: Install packages for LDAP
     yum: name="{{ item }}" state=latest
+    with_items:
+      - openldap-clients
+      - nss-pam-ldapd
   - name: Run authconfig
     raw: authconfig --useshadow --usemd5 --enableldap --enableldapauth --ldapserver=192.150.10.10 --ldapbasedn="dc=vni,dc=com" --enablemkhomedir --updateall
   - name: Change sshd settings
