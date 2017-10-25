@@ -1,0 +1,117 @@
+---
+- name: Create ECS Cluster
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Get private subnets
+      ec2_vpc_subnet_facts:
+        region: eu-central-1
+      register: subnet
+    - name: Create cluster (PR for prod)
+      ecs_cluster:
+        name: VNIDEFR01-ECSPR01
+        state: present
+        region: eu-central-1
+      register: ecs_cluster
+    - name: Create launch configuration for nodes
+      ec2_lc:
+        name: VNIDEFR01-LC01
+        state: present
+        region: eu-central-1
+        image_id: ami-40d5672f
+        key_name: test
+        security_groups: 'VNIDEFR01-SGPRIV01'
+        instance_type: t2.micro
+        instance_monitoring: True
+        assign_public_ip: No
+        user_data: |
+            Content-Type: multipart/mixed; boundary="==BOUNDARY=="
+            MIME-Version: 1.0
+            --==BOUNDARY==
+            MIME-Version: 1.0
+            Content-Type: text/text/x-shellscript; charset="us-ascii"
+            #!/bin/bash
+            # Set cluster name in ECS config
+            echo ECS_CLUSTER=VNIDEFR01-ECSPR01 >> /etc/ecs/ecs.config;
+            # Install awslogs and the jq JSON parser
+            yum install -y awslogs jq
+            # Inject the CloudWatch Logs configuration file contents
+            cat > /etc/awslogs/awslogs.conf <<- EOF
+            [general]
+            state_file = /var/lib/awslogs/agent-state
+            [/var/log/dmesg]
+            file = /var/log/dmesg
+            log_group_name = assignment-prod_/var/log/dmesg
+            log_stream_name = {cluster}/{container_instance_id}
+            [/var/log/messages]
+            file = /var/log/messages
+            log_group_name = assignment-prod_/var/log/messages
+            log_stream_name = {cluster}/{container_instance_id}
+            datetime_format = %b %d %H:%M:%S
+            [/var/log/docker]
+            file = /var/log/docker
+            log_group_name = assignment-prod_/var/log/docker
+            log_stream_name = {cluster}/{container_instance_id}
+            datetime_format = %Y-%m-%dT%H:%M:%S.%f
+            [/var/log/ecs/ecs-init.log]
+            file = /var/log/ecs/ecs-init.log.*
+            log_group_name = assignment-prod_/var/log/ecs/ecs-init.log
+            log_stream_name = {cluster}/{container_instance_id}
+            datetime_format = %Y-%m-%dT%H:%M:%SZ
+            [/var/log/ecs/ecs-agent.log]
+            file = /var/log/ecs/ecs-agent.log.*
+            log_group_name = assignment-prod_/var/log/ecs/ecs-agent.log
+            log_stream_name = {cluster}/{container_instance_id}
+            datetime_format = %Y-%m-%dT%H:%M:%SZ
+            EOF
+            --==BOUNDARY==
+            MIME-Version: 1.0
+            Content-Type: text/text/x-shellscript; charset="us-ascii"
+            #!/bin/bash
+            # Set the region to send CloudWatch Logs data to (the region where the container instance is located)
+            region=$(curl 169.254.169.254/latest/meta-data/placement/availability-zone | sed s'/.$//')
+            sed -i -e "s/region = us-east-1/region = $region/g" /etc/awslogs/awscli.conf
+            --==BOUNDARY==
+            MIME-Version: 1.0
+            Content-Type: text/text/upstart-job; charset="us-ascii"
+            #upstart-job
+            description "Configure and start CloudWatch Logs agent on Amazon ECS container instance"
+            author "Amazon Web Services"
+            start on started ecs
+            script
+                exec 2>>/var/log/ecs/cloudwatch-logs-start.log
+                set -x
+                until curl -s http://localhost:51678/v1/metadata
+                do
+                    sleep 1
+                done
+                # Grab the cluster and container instance ARN from instance metadata
+                cluster=$(curl -s http://localhost:51678/v1/metadata | jq -r '. | .Cluster')
+                container_instance_id=$(curl -s http://localhost:51678/v1/metadata | jq -r '. | .ContainerInstanceArn' | awk -F/ '{print $2}' )
+                # Replace the cluster name and container instance ID placeholders with the actual values
+                sed -i -e "s/{cluster}/$cluster/g" /etc/awslogs/awslogs.conf
+                sed -i -e "s/{container_instance_id}/$container_instance_id/g" /etc/awslogs/awslogs.conf
+                service awslogs start
+                chkconfig awslogs on
+            end script
+            --==BOUNDARY==--
+      register: ec2_lc
+    - name: Create autoscaling group for ECS
+      ec2_asg:
+        name: VNIDEFR01-ASG01
+        state: present
+        region: eu-central-1
+        health_check_period: 60
+        health_check_type: EC2
+        default_cooldown: 300
+        replace_all_instances: True
+        launch_config_name: VNIDEFR01-LC01
+        min_size: 2
+        max_size: 4
+        desired_capacity: 2
+        vpc_zone_identifier: ["{{ subnet.subnets[1].id }}", "{{ subnet.subnets[2].id }}"]
+        tags: 
+          - ldap_client: True
+        wait_for_instances: True
+      register: ec2_asg

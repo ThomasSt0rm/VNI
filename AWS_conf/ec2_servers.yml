@@ -25,6 +25,7 @@
       count_tag:
         role: bastion
       region: eu-central-1
+      instance_profile_name: ansible
       vpc_subnet_id: "{{ subnet.subnets[0].id }}"
       monitoring: yes
       volumes:
