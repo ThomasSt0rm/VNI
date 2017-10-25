@@ -70,3 +70,4 @@ Since we need to have some sort of orchestration, there are my options:
 4. Docker Swarm
 
 My chose goes for ECS, all explanation can be found in 'Why' section.
+I will use Ansible playbook to provision ECS cluster and use Bastion with Ansible to install LDAP client settings on cluster.

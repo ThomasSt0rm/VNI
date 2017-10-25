@@ -1,0 +1,8 @@
+---
+- Name: Main playbook for everything
+  gather_facts: No
+  hosts: localhost
+  connection: local
+  import_playbook: iam_policy.yml
+  import_playbook: vpc_and_subnet.yml
+  import_playbook: ec2_servers.yml
