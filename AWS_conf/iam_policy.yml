@@ -1,5 +1,5 @@
 ---
-- Name: Create IAM policy for dyn inv
+- name: Create IAM policy for dyn inv
   gather_facts: False
   connection: local
   hosts: localhost
