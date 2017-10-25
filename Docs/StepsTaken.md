@@ -56,9 +56,8 @@ To do so, all I have to do is:
 1. Setup LDAP client (as in the guide above)
 2. Configure password auth in SSH daemon
 
-This will be done automagically by Ansible playbook when creating instances with "user data"
-This can also be done by Ansible playbook/role + AWS dynamic inventory, but for that I need to have a management server in the cloud, which I won't do within this task to prevent unnecessary costs.
-However you checkout plabook in 'Servers_conf' folder.
+This will be done automagically by Ansible playbook + AWS dynamic inventory.
+Best practice is to keep special Management server for Ansible playbook for server configuration management, but to avoid unnecessary hosts, I will install Ansible on Bastion host.
 
 
 ### Application Servers
