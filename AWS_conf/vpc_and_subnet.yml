@@ -112,6 +112,10 @@
           to_port: 22
           cidr_ip: 0.0.0.0/0
         - proto: tcp
+          from_port: 53
+          to_port: 53
+          cidr_ip: 0.0.0.0/0
+        - proto: tcp
           from_port: 389
           to_port: 389
           cidr_ip: 192.150.10.10/32
@@ -132,6 +136,10 @@
           to_port: 22
           cidr_ip: "{{ pubsub2.subnet.cidr_block }}"
       rules_egress:
+        - proto: tcp
+          from_port: 53
+          to_port: 53
+          cidr_ip: 0.0.0.0/0
         - proto: tcp
           from_port: 80
           to_port: 80
