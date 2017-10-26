@@ -40,7 +40,6 @@
             device_type: gp2
             delete_on_termination: true
         user_data: "{{ lookup('file', 'ecs_userdata.sh') }}"
-      register: ec2_lc
     - name: Create autoscaling group for ECS
       ec2_asg:
         name: VNIDEFR01-ASG01
@@ -58,4 +57,3 @@
         tags: 
           - ldap_client: True
         wait_for_instances: True
-      register: ec2_asg
