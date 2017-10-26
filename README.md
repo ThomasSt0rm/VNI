@@ -1,7 +1,7 @@
 # VNI
 ## Why do you read this
 
-If you don't know what is Venerable Intertia, please close this page. If you do, please continue
+If you don't know what is Venerable Inertia, please close this page. If you do, please continue
 
 ## Prerequites
 
