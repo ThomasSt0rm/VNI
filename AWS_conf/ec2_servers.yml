@@ -51,6 +51,7 @@
       count_tag:
         role: bastion
       region: eu-central-1
+      assign_public_ip: yes
       instance_profile_name: ansible
       vpc_subnet_id: "{{ bastion_subnet.subnets[0].id }}"
       monitoring: yes
