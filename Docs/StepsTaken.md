@@ -117,7 +117,31 @@ In case if your application needs to be running 24/7 (web server, web service, D
 
 ### Actual Demo
 
-To provide you with some insights, I'm going to run a small service with a Docker container which gets JSON data from XKCD.com and stores in the logs.
+To provide you with some insights, I'm going to run a small service with a Docker container which gets JSON data from bittrex.com and stores in the logs.
 I'm going to use internal AWS repo and also build CodePipelin to build, test, package and store Docker image in ECR.
 
 Developers will be able to read the logs from the AWS console, but if the need to do some debugging manually, they can also SSH to ECS nodes and run docker commands (like docker logs or docker inspect) from inside of the node.
+
+### Demo ECS details
+
+There is a cluster VNIDEFR01-PRECS01 running in AWS.
+Container images are stored in ECR repository under a name 'demorepo'
+Whole CI/CD process is managed by CodePipeline working alon with CodeCommit and CodeBuild.
+
+When developer will push new code to the repository, CodePipeline will trigger a build on a CodeBuild.
+Since this is a demo project only thing that CodeBuild does is to put Python script into a docker image.
+The new image will be automatically deployed to the ECR.
+
+The only manual part to be done is to create a new revision of the Task definition - which basically means 'Deploy new image to production'.
+
+However, using CodePipeline with ECS can be a pain. For example, it only supports CodeBuild projects which have artifact settings.
+As a workaround, I've created a bucket on S3, which will only remain blank, because an actual artifact (Docker image) is being rolled directly into the ECR. So there will be no extra costs for that.
+
+In that case obvious question is - why use CodePipeline. You see, CodePipeline is the only AWS server which will trigger the build on push to CodeCommit, since CodeBuild can not trigger itself.
+
+The actual steps for a Demo Pipeline
+1. New code is being pushed
+2. CodePipeline triggers a build
+3. CodeBuild will put a new Docker image in ECR
+
+In ECS there is also a demo service 'demo_services' which runs multiple instances of the task, the logs can be access in AWS CloudWatch.
