@@ -4,8 +4,13 @@
   connection: local
   hosts: localhost
   tasks:
-    - name: Create role
+    - name: Create role for ansible management server
       iam_role:
         name: ansible
         assume_role_policy_document: "{{ lookup('file','ansible_role.json') }}"
+        state: present
+    - name: Create ECS role
+      iam_role:
+        name: ecsInstanceRole
+        assume_role_policy_document: "{{ lookup('file', 'ecs_role.json') }}"
         state: present
