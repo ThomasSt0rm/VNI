@@ -5,6 +5,8 @@ Assuming that directory users are needed for developers and operations to access
 * Engineers
 
 Table with users and obfuscated password can be found below:
+
+
  User   | Role      | Encrypted password                           
  --- | --- | --- 
  john   | Developer | BI1U6QE5qcUEpZmGki1b8Fsqm3sYh6yT5G7LPlF4CGI= 
