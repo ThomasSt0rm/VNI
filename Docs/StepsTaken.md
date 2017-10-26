@@ -47,8 +47,10 @@ I've created a small t2.micro server in Private subnet.
 To install and configure OpenLDAP I followed [this](http://www.itskarma.wtf/openldap-on-ec2/) guide.
 User info is stored [here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/Users.md)
 
-Password are encrypted with a hash. To decrypt them you need to use "decryptor.py' stored in a Toolkit directory, providing the hash as an argument to the script.
-It will ask you to provide decryption password, which you should have before actually trying to decrypt the password.
+Password are encrypted with a hash. To decrypt them you need to use "decryptor.py' stored in a Toolkit directory, providing the secret_key and encrypted password as an argument.
+Simply run it like this:
+
+` python decryptor.py secret_key encrypted_password `
 
 Once configured with default settings end users there is AMI (Amazon Machine Image) created. When needed to redeploy from scratch, I can use this AMI, so I don't need to configure OpenLDAP again.
 
