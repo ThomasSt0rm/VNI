@@ -10,7 +10,7 @@
       register: subnet
     - name: Create cluster (PR for prod)
       ecs_cluster:
-        name: VNIDEFR01-ECSPR01
+        name: VNIDEFR01-PRECS01
         state: present
         region: eu-central-1
       register: ecs_cluster
@@ -24,12 +24,14 @@
         security_groups: 'VNIDEFR01-SGPRIV01'
         instance_type: t2.micro
         instance_monitoring: True
+        instance_profile_name: ecsInstanceRole
         assign_public_ip: No
         volumes:
           - device_name: /dev/xvdcz
             volume_size: 40
             device_type: gp2
             delete_on_termination: true
+        user_data: "{{ lookup('file', 'ecs_userdata.sh') }}"
       register: ec2_lc
     - name: Create autoscaling group for ECS
       ec2_asg:
