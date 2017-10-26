@@ -2,3 +2,4 @@
 - import_playbook: iam_policy.yml
 - import_playbook: vpc_and_subnet.yml
 - import_playbook: ec2_servers.yml
+- import_playbook: ecs.yml

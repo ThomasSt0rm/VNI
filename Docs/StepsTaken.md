@@ -56,7 +56,7 @@ To do so, all I have to do is:
 1. Setup LDAP client (as in the guide above)
 2. Configure password auth in SSH daemon
 
-This will be done automagically by Ansible playbook + AWS dynamic inventory.
+This will be done automagically by Ansible playbook + AWS dynamic inventory, but also with user_data within launch configuration.
 Best practice is to keep special Management server for Ansible playbook for server configuration management, but to avoid unnecessary hosts, I will install Ansible on Bastion host.
 
 
@@ -71,3 +71,11 @@ Since we need to have some sort of orchestration, there are my options:
 
 My chose goes for ECS, all explanation can be found in 'Why' section.
 I will use Ansible playbook to provision ECS cluster and use Bastion with Ansible to install LDAP client settings on cluster.
+
+The cluster itself is built within 3 steps in Ansible playbook:
+1. Create empty cluster
+2. Create Launch Confirguration for ECS nodes
+3. Create AutoScaling Group for Node
+
+
+LC contains user_data, so ECS servers will automatically register themselves in the cluster and have necessary LDAP settings.
