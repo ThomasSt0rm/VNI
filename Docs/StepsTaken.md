@@ -79,3 +79,13 @@ The cluster itself is built within 3 steps in Ansible playbook:
 
 
 LC contains user_data, so ECS servers will automatically register themselves in the cluster and have necessary LDAP settings.
+
+Technically the infrastructure part of this task is done.
+To actually build the whole infrastructure, you need to run main playbook.
+It will bring you:
+1. LDAP server from the AMI with all LDAP settings
+2. Bastion host with LDAP settings
+3. ECS cluster with LDAP settings
+
+That's the core infrastructure to help VNI to accomplish it's mission in Germany.
+For the demo purposes i'm going to create some repos and pipeline in AWS.
