@@ -9,11 +9,11 @@
       region: eu-central-1
     register: vpc
   - name: get subnet facts for VNIDEFR01-PRIV02
-      ec2_vpc_subnet_facts:
-        region: eu-central-1
-        filters:
-          "tag:Name": VNIDEFR01-PRIV02
-      register: ldap_subnet
+    ec2_vpc_subnet_facts:
+      region: eu-central-1
+      filters:
+        "tag:Name": VNIDEFR01-PRIV02
+    register: ldap_subnet
   - name: Create EC2 fro DS
     ec2:
       key_name: test
@@ -35,11 +35,11 @@
       instance_tags:
         role: directoryserver
   - name: get subnet facts for VNIDEFR01-PUB01
-      ec2_vpc_subnet_facts:
-        region: eu-central-1
-        filters:
-          "tag:Name": VNIDEFR01-PUB01
-      register: bastion_subnet
+    ec2_vpc_subnet_facts:
+      region: eu-central-1
+      filters:
+        "tag:Name": VNIDEFR01-PUB01
+    register: bastion_subnet
   - name: Create Bastion
     ec2:
       key_name: test
@@ -52,7 +52,7 @@
         role: bastion
       region: eu-central-1
       instance_profile_name: ansible
-      vpc_subnet_id: "{{ bastion.subnets[0].id }}"
+      vpc_subnet_id: "{{ bastion_subnet.subnets[0].id }}"
       monitoring: yes
       volumes:
       - device_name: /dev/xvda
