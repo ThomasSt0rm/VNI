@@ -11,7 +11,8 @@ Going manually to each container node to read docker logs directly is an unneces
 Login to AWS Console, select eu-central-1 and CloudWatch.
 Click on 'Logs' on your left and select 'ecs-demo' log group. Click on task definition and you'll see last docker logs.
 
-*SCREEN SHOT HERE*
+![Logs Image]
+(https://raw.githubusercontent.com/ThomasSt0rm/VNI/master/img/ecs_logs.png)
 
 ## How to debug manually
 
