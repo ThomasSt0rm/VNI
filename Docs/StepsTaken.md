@@ -5,11 +5,11 @@
 ### Clean up
 
 It is always better to have a fresh start.
-So I deleted already existing VPC, 3 subnets, IGW, deactivated API key
+So I deleted already existing VPC, 3 subnets, IGW, deactivated API key.
 
 ### Set the repo
 
-There are few folders in the repo
+There are few folders in the repo:
 * **Docs** - documentation
 * **Servers_conf** - configuration management playbooks
 * **AWS_conf** - AWS configuration playbooks
@@ -17,8 +17,8 @@ There are few folders in the repo
 
 ### Initial network infrastructure.
 
-Assuming all requirements, i've decided to build solution in 1 VPC, containing 4 subnets: 2 private and 2 public
-Naming convention has been taken. VNI - for a company name, DE - for German region, Frankfurt - for a city, 01 - location number. After regional part there is a dash with explanation: like RT for route table and SG for security group
+Assuming all the requirements, I've decided to build solution in 1 VPC, containing 4 subnets: 2 private and 2 public
+Naming convention has been taken. VNI - for a company name, DE - for German region, Frankfurt - for a city, 01 - order number. After regional part there is a dash with explanation: like RT for route table and SG for security group
 
 In the end my VPC name is VNIDEFR01. CIDR range is 192.150.0.0/16
 My subnets:
@@ -74,7 +74,7 @@ Since we need to have some sort of orchestration, there are my options:
 3. CoreOS/Mesos
 4. Docker Swarm
 
-My chose goes for ECS, all explanation can be found in 'Why' section.
+My choice goes for ECS, all explanation can be found in 'Why' section.
 I will use Ansible playbook to provision ECS cluster and use Bastion with Ansible to install LDAP client settings on cluster.
 
 The cluster itself is built within 3 steps in Ansible playbook:
@@ -88,12 +88,13 @@ LC contains user_data, so ECS servers will automatically register themselves in 
 Technically the infrastructure part of this task is done.
 To actually build the whole infrastructure, you need to run main playbook.
 It will bring you:
-1. LDAP server from the AMI with all LDAP settings
-2. Bastion host with LDAP settings
-3. ECS cluster with LDAP settings
+1. VPC with network settings
+2. LDAP server from the AMI with all LDAP settings
+3. Bastion host with LDAP settings
+4. ECS cluster with LDAP settings
 
 That's the core infrastructure to help VNI to accomplish it's mission in Germany.
-For the demo purposes i'm going to create some repos and pipeline in AWS.
+For the demo purposes I'm going to create some repos and pipeline in AWS.
 
 
 
@@ -144,4 +145,4 @@ The actual steps for a Demo Pipeline
 2. CodePipeline triggers a build
 3. CodeBuild will put a new Docker image in ECR
 
-In ECS there is also a demo service 'demo_services' which runs multiple instances of the task, the logs can be access in AWS CloudWatch.
+In ECS there is also a demo service 'demo_services' which runs multiple instances of the task, the logs can be accessed in AWS CloudWatch.
