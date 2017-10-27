@@ -1,6 +1,6 @@
 # Why?
 
-Asking why and answering this question is something each engineer and architect is doing every day.
+Asking why and answering this question is something each engineer and architect does every day.
 Hereby you can find my explanation on tooling and way of working.
 First of all.
 
