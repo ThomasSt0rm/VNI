@@ -40,6 +40,7 @@ You can install all necessary Python packages by doing:
 
 
 ## Links
-* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/StepsTaken.md) I explain steps taken to accomplish the task
-* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/Why.md) I explain why
-* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/DevHowTo.md) is a short Dev How-To
+* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/DesignOverview.md) is design overview.
+* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/StepsTaken.md) I explain steps taken to accomplish the task.
+* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/Why.md) I explain why.
+* [Here](https://github.com/ThomasSt0rm/VNI/blob/master/Docs/DevHowTo.md) is a short Dev How-To.
