@@ -7,15 +7,15 @@ First of all.
 
 # Why Ansible?
 
-I've been working with Ansible since 2014 and I am very used to it. Agentless architecture and dynamic inventory make Ansible able to deploy really fast.
+I've been working with Ansible since 2014 and I am very used to it. Agentless architecture and dynamic inventory make Ansible able to deploy and configure infrastructure really fast.
 In addition to that, Ansible has 'Cloud' modules used to work with different providers.
 Playbooks in Ansible are easy to read and understand, roles allow you to predefine your desired state configuration for servers.
-Also Ansible is really nice with performance. For example it takes about 4-5 minutes to build *whole* infrastructure.
+Ansible is really nice with performance. For example it takes about 4-5 minutes to build *whole* infrastructure.
 
 
 ## Why not automate deployment of Directory Server?
 
-First of all, i was trying to use AWS Directory Service.
+First of all, I was trying to use AWS Directory Service.
 Unfortunately, AWS DS can yet work only as:
 
 * user pool by Cognito (used for mobile auth)

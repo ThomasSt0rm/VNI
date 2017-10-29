@@ -28,7 +28,7 @@ My subnets:
 * VNIDEFR01-PRIV02: 192.150.10.0/24
 
 Public subnets are used only for ELB, NAT Gateways and Internet Gateways.
-Route tables allow access to internet. For public subnets IGW is used, for private - NAT (for updates and access to 3rd party networks)
+Route tables allow access to Ithe nternet. For public subnets IGW is used, for private - NAT (for updates and access to 3rd party networks)
 Since this is not a complex task, I only cover firewalling in Security Groups, not touching NACLs.
 However, best practice is also to use NACL security.
 

@@ -55,6 +55,7 @@
       instance_profile_name: ansible
       vpc_subnet_id: "{{ bastion_subnet.subnets[0].id }}"
       monitoring: yes
+      user_data: "{{ lookup('file', 'bastion_userdata.sh') }}"
       volumes:
       - device_name: /dev/xvda
         volume_type: gp2

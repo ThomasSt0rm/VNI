@@ -24,6 +24,6 @@ When you click on EC2 Insrance id you will see private IP address and DNS entry.
 ![Node Image](https://raw.githubusercontent.com/ThomasSt0rm/VNI/master/img/vni-ecs-node.png)
 
 You can use this IP to access this server from a Bastion host.
-From there you do ` docker exec ` to do something inside of container.
+From there you do `sudo docker exec ` to do something inside of container.
 
 However this should be used only in case of emergency.

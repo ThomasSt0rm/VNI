@@ -1,6 +1,5 @@
 #!/bin/bash
-echo ECS_CLUSTER=VNIDEFR01-PRECS01 >> /etc/ecs/ecs.config
-
+e
 yum -y install openldap-clients nss-pam-ldapd
 authconfig --useshadow --usemd5 --enableldap --enableldapauth --ldapserver=192.150.10.10 --ldapbasedn="dc=vni,dc=com" --enablemkhomedir --updateall
 
